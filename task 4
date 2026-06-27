@@ -1,0 +1,37 @@
+movies = {
+    "Action": ["Avengers", "Batman", "John Wick", "Mission Impossible"],
+    "Comedy": ["Mr. Bean", "The Mask", "Friends", "Home Alone"],
+    "Sci-Fi": ["Interstellar", "Inception", "Avatar", "The Matrix"],
+    "Drama": ["Titanic", "Joker", "The Pursuit of Happyness", "Forrest Gump"],
+    "Horror": ["The Conjuring", "Annabelle", "It", "Insidious"]
+}
+
+def show_categories():
+    print("\nAvailable Categories:")
+    for category in movies:
+        print("-", category)
+
+def recommend_movies(category):
+    if category in movies:
+        print("\nRecommended Movies for", category, ":")
+        for movie in movies[category]:
+            print("-", movie)
+    else:
+        print("\nSorry! Category not found.")
+
+def main():
+    print("===== Movie Recommendation System =====")
+
+    while True:
+        show_categories()
+        choice = input("\nEnter your favorite category: ").title()
+
+        recommend_movies(choice)
+
+        again = input("\nDo you want another recommendation? (yes/no): ").lower()
+
+        if again != "yes":
+            print("\nThank you for using Recommendation System!")
+            break
+
+main()
