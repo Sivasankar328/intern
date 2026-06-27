@@ -1,0 +1,51 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+
+public class ImageCaptioning {
+
+    public static String generateCaption(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        long totalBrightness = 0;
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int pixel = image.getRGB(x, y);
+
+                int red = (pixel >> 16) & 0xff;
+                int green = (pixel >> 8) & 0xff;
+                int blue = pixel & 0xff;
+
+                int brightness = (red + green + blue) / 3;
+                totalBrightness += brightness;
+            }
+        }
+
+        long avgBrightness = totalBrightness / (width * height);
+
+        if (avgBrightness > 180) {
+            return "This image is very bright, possibly taken during daytime.";
+        } else if (avgBrightness > 100) {
+            return "This image has moderate brightness with balanced lighting.";
+        } else {
+            return "This image is dark, possibly taken at night or indoors.";
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            File file = new File("sample.jpg");
+            BufferedImage image = ImageIO.read(file);
+
+            String caption = generateCaption(image);
+
+            System.out.println("Generated Caption:");
+            System.out.println(caption);
+
+        } catch (Exception e) {
+            System.out.println("Error loading image: " + e.getMessage());
+        }
+    }
+}
